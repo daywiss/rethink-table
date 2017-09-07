@@ -92,7 +92,7 @@ and any secondary indices.
     table:'nameOfTable',  //table name
     indices:[ 'secondaryIndexName' ], //any simple secondary indices you want created
     compound:[ {
-      name:'compoundName' 
+      name:'compoundName' ,
       fields:['field1',field2']
     }], //any compound secondary indices you want created, see rethinkdb documentation
   }
