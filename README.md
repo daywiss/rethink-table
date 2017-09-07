@@ -30,7 +30,7 @@ with your tables attached.
   }
 
   //Basic init creates database, and will create tables, indices for your schema.
-  Init.Basic(connection,schema).then(function(tables){
+  Init.basic(connection,schema).then(function(tables){
     //tables is an object with your schemas table name
     //user table now exists with functions such as
     //get, create, upsert, list, readStream, etc... 
@@ -76,7 +76,7 @@ attach custom methods to your table. You can usee kkk
     db:'MyRethinkDB',
   }
 
-  Init.Advanced(connection ,AdvancedUserTable).then(function(tables){
+  Init.advanced(connection ,AdvancedUserTable).then(function(tables){
     //tables object has a tables.users, the same name as your schema name
   })
 
@@ -91,10 +91,10 @@ and any secondary indices.
   {
     table:'nameOfTable',  //table name
     indices:[ 'secondaryIndexName' ], //any simple secondary indices you want created
-    compound:[ {
+    compound:[ {  //any compound secondary indices you want created, see rethinkdb documentation
       name:'compoundName' ,
       fields:['field1',field2']
-    }], //any compound secondary indices you want created, see rethinkdb documentation
+    }], 
   }
 ``` 
 
@@ -109,7 +109,7 @@ resolves to a table object.
   })
 
 ```
-##Table methods
+## Table methods
 All return promises or in some cases a stream.
 
 ### table.get(id)
@@ -171,20 +171,20 @@ This has some functions for initalizing schemas or advanced tables.
 ``` js
   var Init = require('rethink-table').Init 
 
-  Init.Basic(connectionOptions,schemas).then(function(result){
+  Init.basic(connectionOptions,schemas).then(function(result){
   })
 
-  Init.Advanced(connectionOptions,advancedSchemas).then(function(result){
+  Init.advanced(connectionOptions,advancedSchemas).then(function(result){
   })
 
 
 ```
 
-### Basic(connectionOptions,basicSchemas)
+### Init.basic(connectionOptions,basicSchemas)
 Schemas can be passed in as a single object for a single schema or an array of schemas. The result
 will be an object keyed by the table names of the schemas passed in.
 
-### Advanced(connectionOptions,advancedSchemas)
+### Init.advanced(connectionOptions,advancedSchemas)
 Advanced schemas are functions which take in a connection object and have the schema definition contained.
 See the example-users.js file for details on the advanced pattern. Returns an object
 keyed by the table names given to each schema. 

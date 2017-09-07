@@ -6,7 +6,7 @@ var r = require('rethinkdb')
 var Table = require('./table')
 var utils = require('./utils')
 
-function Basic(options,schemas){
+function basic(options,schemas){
   schemas = lodash.castArray(schemas)
   return r.connect(options).then(function(con){
     return utils.createDB(con,options.db)
@@ -16,11 +16,11 @@ function Basic(options,schemas){
         result[schema.table] = table
         return result
       })
-    },{})
+    },{_con:con,_options:options})
   })
 }
 
-function Advanced(options,tables){
+function advanced(options,tables){
   tables = lodash.castArray(tables)
   return r.connect(options).then(function(con){
     return utils.createDB(con,options.db)
@@ -30,12 +30,12 @@ function Advanced(options,tables){
         result[table.schema.table] = table
         return result
       })
-    },{})
+    },{_con:con,_options:options})
   })
 }
 
-return {
-  Advanced,Basic
+module.exports = {
+  advanced,basic
 }
 
 

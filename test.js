@@ -1,6 +1,7 @@
 var test = require('tape')
-var Table = require('./table')
-var utils = require('./utils')
+var {Table,Init,Utils} = require('./')
+// var Table = require('./table')
+// var utils = require('./utils')
 var Promise = require('bluebird')
 var Users = require('./example-users')
 
@@ -39,7 +40,7 @@ var users = null
 
 test('rethink-Table',function(t){
   t.test('init',function(t){
-    utils.connect(connection).then(function(result){
+    Utils.connect(connection).then(function(result){
       t.ok(result)
       con = result
       t.end()
@@ -119,7 +120,7 @@ test('rethink-Table',function(t){
 
 test('example user',function(t){
   t.test('init',function(t){
-    utils.connect(connection).then(function(result){
+    Utils.connect(connection).then(function(result){
       t.ok(result)
       con = result
       t.end()
@@ -153,6 +154,25 @@ test('example user',function(t){
   })
   t.test('disconnect',function(t){
     users.close().then(function(){
+      t.end()
+    })
+  })
+})
+
+test('init',function(t){
+  t.test('basic',function(t){
+    return Init.basic(connection,schema).then(function(result){
+      t.ok(result.users)
+      return result.users.close()
+    }).then(function(){
+      t.end()
+    })
+  })
+  t.test('Advanced',function(t){
+    return Init.advanced(connection,Users).then(function(result){
+      t.ok(result.users)
+      return result.users.close()
+    }).then(function(){
       t.end()
     })
   })
