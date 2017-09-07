@@ -10,6 +10,9 @@ module.exports = function(con,schema){
   assert(con,'Table requires rethink db connection')
   assert(schema,'Table requires schema object')
   var methods = {}
+  
+  methods.schema = schema
+  methods.con = con
 
   function mapResult(data,result){
     if(result == null) return data
@@ -104,6 +107,10 @@ module.exports = function(con,schema){
     })
   }
 
+  methods.filter = function(props){
+    return r.table(schema.table).filter(props).coerceTo('array').run(con)
+  }
+
   methods.get = function(id){
     assert(id,'requires id to get')
     return r.table(schema.table)
@@ -113,10 +120,6 @@ module.exports = function(con,schema){
         assert(result,'Does not exist in ' + schema.table)
         return result
       })
-  }
-
-  methods.filter = function(props){
-    return r.table(schema.table).filter(props).coerceTo('array').run(con)
   }
 
   //get array of ids
@@ -165,7 +168,6 @@ module.exports = function(con,schema){
   methods.close = function(){
     return con.close()
   }
-
   return utils.initTable(con,schema).then(function(){
     return methods
   })

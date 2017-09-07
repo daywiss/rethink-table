@@ -11,7 +11,7 @@ module.exports = function(con){
     table:'users',//Table name
     indices:['email'],//Indices 
     compound:[{ //Compound index
-      name:'fullName',rows:['first','last']
+      name:'fullName',fields:['first','last']
     }]
   }
 

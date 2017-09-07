@@ -61,7 +61,7 @@ exports.initTable = Promise.method(function(con,schema){
   }).then(function(){
     if(schema.compound == null) return 
     return Promise.map(schema.compound,function(index){
-      return exports.createCompound(con, schema.table,index.name,index.rows)
+      return exports.createCompound(con, schema.table,index.name,index.rows || index.fields || index.indicies)
     })
   })
 })
