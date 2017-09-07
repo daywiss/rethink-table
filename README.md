@@ -43,7 +43,8 @@ with your tables attached.
 
 # Advanced Usage
 Advanced usage example is included in example-users.js. It shows how to
-attach custom methods to your table. You can usee kkk
+attach custom methods to your table. Advanced initialization also takes an 
+array of table functions.
 
 ```js
   var r = require('rethinkdb')
@@ -186,6 +187,8 @@ will be an object keyed by the table names of the schemas passed in.
 
 ### Init.advanced(connectionOptions,advancedSchemas)
 Advanced schemas are functions which take in a connection object and have the schema definition contained.
+Function will also take an array of advancedSchemas.
+
 See the example-users.js file for details on the advanced pattern. Returns an object
 keyed by the table names given to each schema. 
 
