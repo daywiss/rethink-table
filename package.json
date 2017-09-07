@@ -6,6 +6,31 @@
   "scripts": {
     "test": "node test"
   },
+  "keywords": [
+    "rethinkdb",
+    "rethink",
+    "tables",
+    "table",
+    "schema",
+    "boilerplate",
+    "stream",
+    "streaming",
+    "promise",
+    "promises",
+    "bluebird",
+    "highland",
+    "simple"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daywiss/rethink-table.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daywiss/rethink-table/issues"
+  },
+  "homepage": "https://github.com/daywiss/rethink-table#readme",
   "author": "",
   "license": "ISC",
   "dependencies": {
