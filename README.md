@@ -1,13 +1,13 @@
-#Rethink-Table
+# Rethink-Table
 Useful utility for creating and manipulating [rethinkdb](https://www.rethinkdb.com) tables.
 Simple schema definition, and automatic db/table creation. Includes a streaming interface using [highland](https://highlandjs.org).
 
-#Installation
+# Installation
 `npm install --save rethink-table`
 
 You must have rethinkdb running which you can connect to.
 
-#Basic Usage
+# Basic Usage
 Define your table schema, and connection parameters, pass them into RethinkTable. It will
 ensure the database exists, the tables exists and all indices exist then return an object
 with your tables attached. 
@@ -41,7 +41,7 @@ with your tables attached.
 
 ```
 
-#Advanced Usage
+# Advanced Usage
 Advanced usage example is included in example-users.js. It shows how to
 attach custom methods to your table. You can usee kkk
 
@@ -83,8 +83,8 @@ attach custom methods to your table. You can usee kkk
 ```
 
 
-#API
-##Schemas
+# API
+## Schemas
 This library uses a pretty basic schema for defining tables. Define your table name
 and any secondary indices.
 ``` js
@@ -98,7 +98,7 @@ and any secondary indices.
   }
 ``` 
 
-##Table (con,schema)
+## Table (con,schema)
 The tables class takes a rethink connection and a schema. Returns a promise which
 resolves to a table object.
 ``` js
@@ -165,7 +165,7 @@ Delete the entire table.
 ### table.close()
 Close the connection. Will close any other tables sharing the connection object.
 
-##Init
+## Init
 This has some functions for initalizing schemas or advanced tables.
 
 ``` js
@@ -180,11 +180,11 @@ This has some functions for initalizing schemas or advanced tables.
 
 ```
 
-###Basic(connectionOptions,basicSchemas)
+### Basic(connectionOptions,basicSchemas)
 Schemas can be passed in as a single object for a single schema or an array of schemas. The result
 will be an object keyed by the table names of the schemas passed in.
 
-###Advanced(connectionOptions,advancedSchemas)
+### Advanced(connectionOptions,advancedSchemas)
 Advanced schemas are functions which take in a connection object and have the schema definition contained.
 See the example-users.js file for details on the advanced pattern. Returns an object
 keyed by the table names given to each schema. 
