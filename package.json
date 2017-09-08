@@ -31,8 +31,6 @@
     "url": "https://github.com/daywiss/rethink-table/issues"
   },
   "homepage": "https://github.com/daywiss/rethink-table#readme",
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",
     "highland": "^2.11.1",

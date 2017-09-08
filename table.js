@@ -27,21 +27,12 @@ module.exports = function(con,schema){
   }
 
   methods.streamify = function(query){
-    var Push = null
-    var Next = null
-
-    query.run(con).then(function(cursor){
-      cursor.each(function(err,row){
-        Push(err,row)
-        Next()
-      },function(){
-        Push(null,highland.nil)
-      })
-    })
-
     return highland(function(push,next){
-      Push = push
-      Next = next
+      query.run(con).then(function(cursor){
+        cursor.each(push,function(){
+          push(null,highland.nil)
+        })
+      })
     })
   }
 
