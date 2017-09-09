@@ -42,7 +42,7 @@ module.exports = function(con,schema){
 
   //create new id for document, or insert existing id
   //replace entire doc on conflict and return document
-  methods.upsert = function(data){
+  methods.upsert = Promise.method(function(data){
     assert(data,'requires object to upsert')
     return r.table(schema.table)
       .insert(data,{returnChanges:true,conflict:'replace'})
@@ -50,10 +50,10 @@ module.exports = function(con,schema){
       .then(function(result){
         return mapResult(data,result)
       })
-  }
+  })
 
   //create new id for document, error if conflict
-  methods.create = function(data){
+  methods.create = Promise.method(function(data){
     assert(data,'requires object to create')
     return r.table(schema.table)
       .insert(data,{returnChanges:true,conflict:'error'})
@@ -61,14 +61,14 @@ module.exports = function(con,schema){
       .then(function(result){
         return mapResult(data,result)
       })
-  }
+  })
 
   methods.count = function(){
     return r.table(schema.table).count().run(con)
   }
   
   //update fields in existing document
-  methods.update  = function(id,data){
+  methods.update = Promise.method(function(id,data){
     assert(id,'requires id of object to update')
     assert(data,'requires object to update')
     return r.table(schema.table)
@@ -78,31 +78,31 @@ module.exports = function(con,schema){
       .then(function(result){
         return mapResult(data,result)
       })
-  }
+  })
 
-  methods.has = function(id){
+  methods.has = Promise.method(function(id){
     assert(id,'requires id to check existence of')
     return methods.get(id).then(function(result){
       return result != null
     }).catch(function(err){
       return false
     })
-  }
+  })
 
-  methods.hasBy = function(index,id){
+  methods.hasBy = Promise.method(function(index,id){
     assert(id,'requires id to check existence of')
     assert(index,'requires index to check existence of')
     return methods.getBy(index,id).then(function(result){
       if(result == null) return false
       return result.length > 0
     })
-  }
+  })
 
   methods.filter = function(props){
     return r.table(schema.table).filter(props).coerceTo('array').run(con)
   }
 
-  methods.get = function(id){
+  methods.get = Promise.method(function(id){
     assert(id,'requires id to get')
     return r.table(schema.table)
       .get(id)
@@ -111,25 +111,26 @@ module.exports = function(con,schema){
         assert(result,'Does not exist in ' + schema.table)
         return result
       })
-  }
+  })
 
   //get array of ids
   methods.getAll = Promise.method(function(ids){
     if(lodash.isEmpty(ids)) return []
+    ids = lodash.castArray(ids)
     return r.table(schema.table)
       .getAll(r.args(ids))
       .coerceTo('array')
       .run(con)
   })
 
-  methods.getBy = function(index,id){
+  methods.getBy = Promise.method(function(index,id){
     assert(id,'requires id to get by')
     assert(index,'requires index to get by')
     return r.table(schema.table)
       .getAll(id,{index:index})
       .coerceTo('array')
       .run(con)
-  }
+  })
 
   methods.table = function(){
     return r.table(schema.table)
@@ -139,13 +140,13 @@ module.exports = function(con,schema){
     return r.table(schema.table).coerceTo('array').run(con)
   }
 
-  methods.delete = function(id){
+  methods.delete = Promise.method(function(id){
     assert(id,'requires id to delete')
     return r.table(schema.table)
       .get(id)
       .delete()
       .run(con)
-  }
+  })
 
   //static rethink object
   methods.r = r
