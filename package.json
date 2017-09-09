@@ -1,6 +1,6 @@
 {
   "name": "rethink-table",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utility functions for interfacing with a RethinkDB database and reducing boilerplate",
   "main": "index.js",
   "scripts": {
