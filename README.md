@@ -66,10 +66,13 @@ array of table functions.
       //attach additional functions to the model in here
       //see example-user.js
 
-      table.login ...etc
-      table.changePassword ...etc
-
-      return model
+      table.login = function(username,password){
+         //...etc
+      }
+      table.changePassword = function(userid, oldpassword,newpassword){
+        //...etc
+      }
+      return table
     })
   }
 
