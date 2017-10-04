@@ -126,27 +126,67 @@ Get a bunch of objects by array of ids. Promises resolves to an array.
 Get objects by a secondary id. Promises resolves to an array.
 
 ### table.has(id)
-
 Check existence of object by primary id.
+
 ### table.hasBy(indexName,id)
 Check existence of object by secondary id. Promise resolves to an array.
 
 ### table.filter(filterObject)
-Filter objects in table by an object
+Filter objects in table by an object using rethink query. Returns array.
 
 ### table.count()
 Count number of entries in table.
-### table.readStream()
-Stream all rows in table. Returns highland stream.
 
-### table.streamify(rethinkQuery)
-Stream contents of a query which would normally return a cursor. Returns a rethink stream.
+### table.readStream()
+Stream all rows in table. Returns highland stream which emits each entry in table.
+
+```
+  usersTable.readStream().filter(function(user){
+    return !user.banned
+  }).each(function(unbannedUser){
+    //do something
+  })
+```
+
+### table.run(rethinkQuery)
+Runs arbitray rethink query on table.
+
+```
+  var r = usersTable.r
+
+  var query = r.table('users').orderBy('created').coerceTo('array')
+
+  table.run(query).then(function(users){
+    //sorted users
+  })
+```
+
+
 
 ### table.table()
 Returns the equivalent of r.table('tableName') so that you can write custom queries on table.
+You want to pass query to the run function to attach rethink connection if you dont have it.
 
-### table.run(rethinkQuery)
-Runs arbitray rethink  uery on table.
+```
+
+  var query = usersTable.table().orderBy('created').coerceTo('array')
+
+  table.run(query).then(function(users){
+    //sorted users
+  })
+```
+
+### table.streamify(rethinkQuery)
+Stream contents of a query which would normally return a cursor. Returns a highland stream.
+
+```
+  //query returns cursor
+  var query = usersTable.table().filter('validated')
+
+  users.streamify(query).each(function(user){
+    //etc
+  })
+```
 
 ### table.list()
 Returns array of all rows in table. Promise resolves to an array.

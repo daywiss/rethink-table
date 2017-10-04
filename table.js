@@ -21,6 +21,36 @@ module.exports = function(con,schema){
     return result.changes[0].new_val
   }
 
+  methods.get = Promise.method(function(id){
+    assert(id != null,'requires id to get')
+    return r.table(schema.table)
+      .get(id)
+      .run(con)
+      .then(function(result){
+        assert(result,'Does not exist in ' + schema.table)
+        return result
+      })
+  })
+
+  //get array of ids
+  methods.getAll = Promise.method(function(ids){
+    if(lodash.isEmpty(ids)) return []
+    ids = lodash.castArray(ids)
+    return r.table(schema.table)
+      .getAll(r.args(ids))
+      .coerceTo('array')
+      .run(con)
+  })
+
+  methods.getBy = Promise.method(function(index,id){
+    assert(id != null,'requires id to get by')
+    assert(index != null,'requires index to get by')
+    return r.table(schema.table)
+      .getAll(id,{index:index})
+      .coerceTo('array')
+      .run(con)
+  })
+
   //runs a query with the connection
   methods.run = function(query){
     return query.run(con)
@@ -43,7 +73,7 @@ module.exports = function(con,schema){
   //create new id for document, or insert existing id
   //replace entire doc on conflict and return document
   methods.upsert = Promise.method(function(data){
-    assert(data,'requires object to upsert')
+    assert(data != null,'requires object to upsert')
     return r.table(schema.table)
       .insert(data,{returnChanges:true,conflict:'replace'})
       .run(con)
@@ -54,7 +84,7 @@ module.exports = function(con,schema){
 
   //create new id for document, error if conflict
   methods.create = Promise.method(function(data){
-    assert(data,'requires object to create')
+    assert(data != null,'requires object to create')
     return r.table(schema.table)
       .insert(data,{returnChanges:true,conflict:'error'})
       .run(con)
@@ -69,8 +99,8 @@ module.exports = function(con,schema){
   
   //update fields in existing document
   methods.update = Promise.method(function(id,data){
-    assert(id,'requires id of object to update')
-    assert(data,'requires object to update')
+    assert(id != null,'requires id of object to update')
+    assert(data != null,'requires object to update')
     return r.table(schema.table)
       .get(id)
       .update(data,{returnChanges:true})
@@ -81,7 +111,7 @@ module.exports = function(con,schema){
   })
 
   methods.has = Promise.method(function(id){
-    assert(id,'requires id to check existence of')
+    assert(id != null,'requires id to check existence of')
     return methods.get(id).then(function(result){
       return result != null
     }).catch(function(err){
@@ -90,8 +120,8 @@ module.exports = function(con,schema){
   })
 
   methods.hasBy = Promise.method(function(index,id){
-    assert(id,'requires id to check existence of')
-    assert(index,'requires index to check existence of')
+    assert(id != null,'requires id to check existence of')
+    assert(index != null,'requires index to check existence of')
     return methods.getBy(index,id).then(function(result){
       if(result == null) return false
       return result.length > 0
@@ -102,35 +132,6 @@ module.exports = function(con,schema){
     return r.table(schema.table).filter(props).coerceTo('array').run(con)
   }
 
-  methods.get = Promise.method(function(id){
-    assert(id,'requires id to get')
-    return r.table(schema.table)
-      .get(id)
-      .run(con)
-      .then(function(result){
-        assert(result,'Does not exist in ' + schema.table)
-        return result
-      })
-  })
-
-  //get array of ids
-  methods.getAll = Promise.method(function(ids){
-    if(lodash.isEmpty(ids)) return []
-    ids = lodash.castArray(ids)
-    return r.table(schema.table)
-      .getAll(r.args(ids))
-      .coerceTo('array')
-      .run(con)
-  })
-
-  methods.getBy = Promise.method(function(index,id){
-    assert(id,'requires id to get by')
-    assert(index,'requires index to get by')
-    return r.table(schema.table)
-      .getAll(id,{index:index})
-      .coerceTo('array')
-      .run(con)
-  })
 
   methods.table = function(){
     return r.table(schema.table)
@@ -141,7 +142,7 @@ module.exports = function(con,schema){
   }
 
   methods.delete = Promise.method(function(id){
-    assert(id,'requires id to delete')
+    assert(id != null,'requires id to delete')
     return r.table(schema.table)
       .get(id)
       .delete()

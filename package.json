@@ -19,7 +19,11 @@
     "promises",
     "bluebird",
     "highland",
-    "simple"
+    "simple",
+    "models",
+    "nosql",
+    "database",
+    "rethink tools"
   ],
   "repository": {
     "type": "git",
