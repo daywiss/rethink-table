@@ -117,7 +117,7 @@ resolves to a table object.
 All return promises or in some cases a stream.
 
 ### table.get(id)
-Get an object from table by id
+Get an object from table by id. Promise resolves to object.
 
 ### table.getAll(ids)
 Get a bunch of objects by array of ids. Promises resolves to an array.
@@ -126,16 +126,28 @@ Get a bunch of objects by array of ids. Promises resolves to an array.
 Get objects by a secondary id. Promises resolves to an array.
 
 ### table.has(id)
-Check existence of object by primary id.
+Check existence of object by primary id. Promise resolve true or false.
 
 ### table.hasBy(indexName,id)
-Check existence of object by secondary id. Promise resolves to an array.
+Check existence of object by secondary id. Promise resolves to true or false.
+
+### table.update(id,update)
+Update an existing object partially or fully. Object must already exist. Returns a promise which resolves the updated object.
+
+### table.upsert(object)
+Update an object if key exists, or insert new object otherwise. Will replace object if one exists.
+Object may or may not include id field. If not one will be generated. Returns promise which resolves
+to upserted object.
+
+### table.create(object)
+Creates an object only if it does not exist. Will throw error if primary id is already in table. Otherwise
+will create object id and returns created object.
 
 ### table.filter(filterObject)
-Filter objects in table by an object using rethink query. Returns array.
+Filter objects in table by an object using rethink query. Promise resolves to array.
 
 ### table.count()
-Count number of entries in table.
+Count number of entries in table. Returns a promise that resolves a number.
 
 ### table.readStream()
 Stream all rows in table. Returns highland stream which emits each entry in table.
