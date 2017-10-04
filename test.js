@@ -7,7 +7,7 @@ var Users = require('./example-users')
 
 var schema = {
   table:'users',
-  indices:['email'],
+  indices:['email','verified'],
   compound:[{
     name:'fullName',rows:['first','last']
   }]
@@ -22,16 +22,19 @@ var data = [
     email:'tb@example.com',
     first:'Tim',
     last:'Bo',
+    verified:false,
   },
   {
     email:'js@example.com',
     first:'Jon',
     last:'Snow',
+    verified:false,
   },
   {
     email:'ab@example.com',
     first:'Anna',
     last:'Banana',
+    verified:true,
   },
 ]
 
@@ -82,6 +85,12 @@ test('rethink-Table',function(t){
     users.getBy('email','tb@example.com').then(function(result){
       t.equal(result.length,1)
       t.equal(result[0].first,data[0].first)
+      t.end()
+    })
+  })
+  t.test('getBy',function(t){
+    users.getBy('verified',false).then(function(result){
+      t.equal(result.length,2)
       t.end()
     })
   })
