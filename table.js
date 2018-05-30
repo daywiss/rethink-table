@@ -149,6 +149,16 @@ module.exports = function(con,schema){
       .run(con)
   })
 
+  methods.paginate = Promise.method(function(index, page, limit){
+    assert(index != null,'requires index to check existence of')
+    page = parseInt(page) || 1
+    limit = parseInt(limit) || 100
+    return r.table()
+      .orderBy({index})
+      .slice((page - 1) * limit, page * limit)
+      .coerceTo('array').limit(limit)
+  })
+
   //static rethink object
   methods.r = r
   
