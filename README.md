@@ -215,6 +215,9 @@ The static object which represents the rethink library, r = require('rethinkdb')
 ### table.delete(id)
 Delete an item by primary id.
 
+### table.paginate(index, page, limit)
+Returns the table sliced by page and row limit.
+
 ### table.drop()
 Delete the entire table.
 
