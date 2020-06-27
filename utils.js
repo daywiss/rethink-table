@@ -47,7 +47,7 @@ exports.initTable = Promise.method(function(con,schema={}){
   assert(con,'requires rethink connection')
   assert(schema,'table initialization requires schema with table name')
   assert(schema.table,'table initialization requires schema with table name')
-  return r.tableCreate(schema.table,schema.options || {}).run(con).then(function(){
+  return r.tableCreate(schema.table,schema.options || {}).run(con).then(function(res){
     console.log('table',schema.table,'created')
     return true
   }).catch(function(err){
@@ -65,6 +65,11 @@ exports.initTable = Promise.method(function(con,schema={}){
     })
   })
 })
+
+exports.dropTable = async (con,schema) =>{
+  assert(con,'requires rethink connection')
+  return r.tableDrop(schema.table).run(con)
+}
 
 exports.createDB = Promise.method(function(con,db){
   assert(con,'requires rethink connection')

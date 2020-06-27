@@ -278,7 +278,7 @@ resumer@~0.0.0:
   dependencies:
     through "~2.3.4"
 
-rethinkdb@^2.3.3:
+rethinkdb@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/rethinkdb/-/rethinkdb-2.4.2.tgz#9c5d8dde3300ddacfdfae0fc8ded3754602d447a"
   integrity sha512-6DzwqEpFc8cqesAdo07a845oBRxLiHvWzopTKBo/uY2ypGWIsJQFJk3wjRDtSEhczxJqLS0jnf37rwgzYAw8NQ==
