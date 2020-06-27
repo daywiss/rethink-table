@@ -55,11 +55,12 @@ array of table functions.
   //additional functions to the table specific to your model.
   function AdvancedUserTable(con){
     var schema = {
-      table:'users',//Table name
-      indices:['email'],//Indices 
-      compound:[{ //Compound index
+      table:'users',// Table name
+      indices:['email'],// Indices 
+      compound:[{ // Compound index
         name:'fullName',fields:['first','last']
       }]
+      options:{}  // rethink db table options
     }
 
     return Table(con,schema).then(function(table){
@@ -175,7 +176,7 @@ Runs arbitray rethink query on table.
 
 
 
-### table.table()
+### table.table() or table.query()
 Returns the equivalent of r.table('tableName') so that you can write custom queries on table.
 You want to pass query to the run function to attach rethink connection if you dont have it.
 
@@ -215,8 +216,8 @@ The static object which represents the rethink library, r = require('rethinkdb')
 ### table.delete(id)
 Delete an item by primary id.
 
-### table.drop()
-Delete the entire table.
+### table.deleteAll() or table.drop() (deprecated)
+Delete all rows in table. Table will still exist.
 
 ### table.close()
 Close the connection. Will close any other tables sharing the connection object.

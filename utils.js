@@ -43,11 +43,11 @@ exports.createCompound = Promise.method(function(con,table,index,rows){
 })
 
 
-exports.initTable = Promise.method(function(con,schema){
+exports.initTable = Promise.method(function(con,schema={}){
   assert(con,'requires rethink connection')
   assert(schema,'table initialization requires schema with table name')
   assert(schema.table,'table initialization requires schema with table name')
-  return r.tableCreate(schema.table).run(con).then(function(){
+  return r.tableCreate(schema.table,schema.options || {}).run(con).then(function(){
     console.log('table',schema.table,'created')
     return true
   }).catch(function(err){

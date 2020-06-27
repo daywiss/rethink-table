@@ -1,3 +1,4 @@
+require('dotenv').config()
 var test = require('tape')
 var {Table,Init,Utils} = require('./')
 // var Table = require('./table')
@@ -10,11 +11,15 @@ var schema = {
   indices:['email','verified'],
   compound:[{
     name:'fullName',rows:['first','last']
-  }]
+  }],
+  // options:{
+  //   primaryKey:'id',
+  // }
 }
 
 var connection = {
-  db:'test'
+  db:'test',
+  host:process.env.host,
 }
 
 var data = [

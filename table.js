@@ -137,6 +137,10 @@ module.exports = function(con,schema){
     return r.table(schema.table)
   }
 
+  methods.query = function (){
+    return r.table(schema.table)
+  }
+
   methods.list = function(){
     return r.table(schema.table).coerceTo('array').run(con)
   }
@@ -152,9 +156,14 @@ module.exports = function(con,schema){
   //static rethink object
   methods.r = r
   
-  //drop table
-  methods.drop = function(){
+  //delete all rows
+  methods.deleteAll = function(){
     return r.table(schema.table).delete().run(con)
+  }                    
+
+  // Deprecate drop in favor of deleteAll. We want drop to delete the table.
+  methods.drop = function(){
+    return methods.deleteAll()
   }                    
 
   //close connection
